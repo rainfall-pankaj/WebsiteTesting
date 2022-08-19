@@ -8,3 +8,8 @@ function add(a, b) {
 }
 var x = 10, y = 20;
 console.log(add(x, y));
+function sub(a, b) {
+    return a - b;
+}
+var m = 40, n = 15;
+console.log(sub(m, n));
