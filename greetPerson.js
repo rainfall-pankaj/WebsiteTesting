@@ -13,3 +13,8 @@ function sub(a, b) {
 }
 var m = 40, n = 15;
 console.log(sub(m, n));
+function mul(a, b) {
+    return a - b;
+}
+var o = 7, k = 5;
+console.log(mul(o, k));

@@ -18,3 +18,10 @@ function sub(a,b)
 }
 let m=40,n=15;
 console.log(sub(m,n));
+
+function mul(a,b)
+{
+    return a-b;
+}
+let o=7,k=5;
+console.log(mul(o,k));
