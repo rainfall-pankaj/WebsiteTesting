@@ -31,3 +31,9 @@ function div()
     return 34/2;
 }
 console.log(div());
+
+function mod()
+{
+    return 34%5;
+}
+console.log(mod());
