@@ -4,54 +4,63 @@ on:
   push:
     branches:
       - 'feature/**'
-
 jobs:
-  main:
-    name: Create PR Release to Main
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
+  job1:
 
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: node greetPerson.js
+    build:
 
-    steps:
-      - name: git checkout
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+      runs-on: ubuntu-latest
 
-      # https://github.com/marketplace/actions/github-pull-request-action
-      - name: create pull request
-        id: open-pr
-        uses: repo-sync/pull-request@v2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          destination_branch: ${{ github.event.repository.default_branch }}
-          pr_title: "[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"
-          pr_body: "Automated Pull Request"
-          pr_reviewer: "rainfall-pankaj"
-          pr_assignee: "rainfall-pankaj"
-          pull_request_review:
-            types:
-              - submitted
-          check_suite:
-            types:
-              - completed
+      strategy:
+        matrix:
+          node-version: [18.x]
 
-      # https://github.com/marketplace/actions/enable-pull-request-automerge
-      - name: enable automerge
-        if: steps.open-pr.outputs.pr_number != ''
-        uses: peter-evans/enable-pull-request-automerge@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number: ${{ steps.open-pr.outputs.pr_number }}
-          merge-method: merge
+      steps:
+        - uses: actions/checkout@v3
+        - name: Use Node.js ${{ matrix.node-version }}
+          uses: actions/setup-node@v3
+          with:
+            node-version: ${{ matrix.node-version }}
+        - run: npm ci
+        - run: npm run build --if-present
+        - run: node greetPerson.js
+
+  job2:    
+    main:
+      name: Create PR Release to Main
+      needs: job1
+      runs-on: ubuntu-latest    
+      steps:
+        - name: git checkout
+          uses: actions/checkout@v3
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+        # https://github.com/marketplace/actions/github-pull-request-action
+        - name: create pull request
+          id: open-pr
+          uses: repo-sync/pull-request@v2
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            destination_branch: ${{ github.event.repository.default_branch }}
+            pr_title: "[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"
+            pr_body: "Automated Pull Request"
+            pr_reviewer: "rainfall-pankaj"
+            pr_assignee: "rainfall-pankaj"
+            pull_request_review:
+              types:
+                - submitted
+            check_suite:
+              types:
+                - completed
+
+        # https://github.com/marketplace/actions/enable-pull-request-automerge
+        - name: enable automerge
+          if: steps.open-pr.outputs.pr_number != ''
+          uses: peter-evans/enable-pull-request-automerge@v2
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            pull-request-number: ${{ steps.open-pr.outputs.pr_number }}
+            merge-method: merge
