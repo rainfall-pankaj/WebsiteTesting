@@ -34,8 +34,9 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: node greetPerson.js
-      
+
       # !! Merge request starts from here
+    steps:
       - title: Assign Yourself
         description: Assign yourself to the first issue in this repository.
         event: issues.assigned
