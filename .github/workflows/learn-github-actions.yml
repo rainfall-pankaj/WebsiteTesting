@@ -1,5 +1,5 @@
 name: Merge Release Into Main
-
+# Removed the protection.
 on:
   push:
     branches:
