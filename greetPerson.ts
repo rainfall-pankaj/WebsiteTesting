@@ -37,3 +37,9 @@ function mod()
     return 34%5;
 }
 console.log(mod());
+
+function displayName()
+{
+    return "Pankaj";
+}
+console.log(displayName());
