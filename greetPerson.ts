@@ -40,6 +40,12 @@ console.log(mod());
 
 function displayName()
 {
-    return "Shinde";
+    return "Pankaj";
 }
 console.log(displayName());
+
+function displayJob()
+{
+    return "Tester";
+}
+console.log(displayJob());
