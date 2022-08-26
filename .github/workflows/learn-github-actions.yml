@@ -34,3 +34,13 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: node greetPerson.js
+      
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
+      - id: automerge
+        name: automerge
+        uses: "pascalgn/automerge-action@v0.15.3"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
