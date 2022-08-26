@@ -27,6 +27,6 @@ function mod() {
 }
 console.log(mod());
 function displayName() {
-    return "Pankaj";
+    return "Shinde";
 }
 console.log(displayName());
