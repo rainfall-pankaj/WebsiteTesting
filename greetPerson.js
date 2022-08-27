@@ -38,3 +38,7 @@ function displayInitials() {
     return "PS";
 }
 console.log(displayInitials());
+function displayProjectName() {
+    return "Rainfall";
+}
+console.log(displayProjectName());
