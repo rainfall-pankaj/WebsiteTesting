@@ -1,38 +1,37 @@
-#name: learn-github-actions
-#on: [push]
-#jobs:
- # check-bats-version:
-  #  runs-on: ubuntu-latest
-   # steps:
-    #  - uses: actions/checkout@v3
-    # - uses: actions/setup-node@v3
-    #    with:
-    #      node-version: '14'
-    #  - run: npm install -g bats
-    #  - run: bats -v
-name: Node.js CI
+name: Merge Release Into Main
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
- 
+    branches:
+      - 'release/**'
+
 jobs:
-  build:
-
+  main:
+    name: Create PR Release to Main
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
-
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: git checkout
+        uses: actions/checkout@v3
         with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: node greetPerson.js
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      # https://github.com/marketplace/actions/github-pull-request-action
+      - name: create pull request
+        id: open-pr
+        uses: repo-sync/pull-request@v2
+        with:
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          destination_branch: ${{ github.event.repository.default_branch }}
+          pr_title: "[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"
+          pr_body: "Automated Pull Request"
+          pr_reviewer: "jessesquires"
+          pr_assignee: "jessesquires"
+
+      # https://github.com/marketplace/actions/enable-pull-request-automerge
+      - name: enable automerge
+        if: steps.open-pr.outputs.pr_number != ''
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          pull-request-number: ${{ steps.open-pr.outputs.pr_number }}
+          merge-method: merge
