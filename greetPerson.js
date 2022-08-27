@@ -27,6 +27,14 @@ function mod() {
 }
 console.log(mod());
 function displayName() {
-    return "Shinde";
+    return "Pankaj";
 }
 console.log(displayName());
+function displayJob() {
+    return "Tester";
+}
+console.log(displayJob());
+function displayInitials() {
+    return "PS";
+}
+console.log(displayInitials());

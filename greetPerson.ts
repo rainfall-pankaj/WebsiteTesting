@@ -49,3 +49,9 @@ function displayJob()
     return "Tester";
 }
 console.log(displayJob());
+
+function displayInitials()
+{
+    return "PS";
+}
+console.log(displayInitials());
