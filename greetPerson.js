@@ -22,3 +22,7 @@ function displayName() {
     return "Pankaj";
 }
 console.log(displayName());
+function displayTitle() {
+    return "Mr.";
+}
+console.log(displayTitle());
