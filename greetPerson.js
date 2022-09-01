@@ -25,4 +25,4 @@ console.log(displayName());
 function displayTitle() {
     return "Mr.";
 }
-console.log(displayTitle());
+console.log("Hello! " + displayTitle() + " " + displayName());
