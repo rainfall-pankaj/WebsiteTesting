@@ -1,37 +1,41 @@
-name: Merge Release Into Main
+name: Merge PR into Main
 
 on:
   push:
-    branches:
-      - 'release/**'
+    branches: [release/**]
+
+env:
+  DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
 
 jobs:
   main:
-    name: Create PR Release to Main
+    if: ${{ contains(github.event.*.labels.*.name, 'merge into main') }}
+    name: Merge Main
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.push.head.ref }}
+          fetch-depth: 0
 
-      # https://github.com/marketplace/actions/github-pull-request-action
-      - name: create pull request
-        id: open-pr
-        uses: repo-sync/pull-request@v2
+      - name: perform merge
+        run: |
+          git config --global user.email "${pankaj@rainfall.one}"
+          git config --global user.name "${rainfall-pankaj}"
+          git status
+          git pull
+          git checkout "$GITHUB_HEAD_REF"
+          git status
+          git pull
+          git checkout "$DEFAULT_BRANCH"
+          git merge "$GITHUB_HEAD_REF" --no-edit
+          git push
+          git status
+      # https://github.com/marketplace/actions/actions-ecosystem-remove-labels
+      - name: remove label
+        if: always()
+        uses: actions-ecosystem/action-remove-labels@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          destination_branch: ${{ github.event.repository.default_branch }}
-          pr_title: "[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"
-          pr_body: ":robot: _Automated Pull Request_ :robot: <br><br>Merging **${{ github.ref_name }}** into **${{ github.event.repository.default_branch }}**. <br><br> :warning: _If there are conflicts, close this PR, resolve the conflicts manually on an intermediate branch, then open a new PR._"         
-          pr_reviewer: "rainfall-pankaj"
-          pr_assignee: "rainfall-pankaj"
-
-      # https://github.com/marketplace/actions/enable-pull-request-automerge
-      - name: enable automerge
-        if: steps.open-pr.outputs.pr_number != ''
-        uses: peter-evans/enable-pull-request-automerge@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number: ${{ steps.open-pr.outputs.pr_number }}
-          merge-method: merge
+          labels: merge into main
