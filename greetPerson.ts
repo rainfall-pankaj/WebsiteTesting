@@ -26,14 +26,14 @@ function mul(a,b)
 let o=7,k=5;
 console.log(mul(o,k));
 
-function div()
+function displayName()
 {
-    return 34/2;
+    return "Pankaj";
 }
-console.log(div());
+console.log(displayName());
 
-function mod()
+function displayTitle()
 {
-    return 34%5;
+    return "Mr.";
 }
-console.log(mod());
+console.log("Hello! "+displayTitle()+" "+displayName());

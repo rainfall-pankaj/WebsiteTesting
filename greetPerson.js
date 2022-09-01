@@ -18,11 +18,12 @@ function mul(a, b) {
 }
 var o = 7, k = 5;
 console.log(mul(o, k));
-function div() {
-    return 34 / 2;
+
+function displayName() {
+    return "Pankaj";
 }
-console.log(div());
-function mod() {
-    return 34 % 5;
+console.log(displayName());
+function displayTitle() {
+    return "Mr.";
 }
-console.log(mod());
+console.log("Hello! " + displayTitle() + " " + displayName());
