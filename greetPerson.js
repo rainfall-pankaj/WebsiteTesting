@@ -18,6 +18,7 @@ function mul(a, b) {
 }
 var o = 7, k = 5;
 console.log(mul(o, k));
+
 function displayName() {
     return "Pankaj";
 }
