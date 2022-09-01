@@ -21,7 +21,7 @@ console.log(sub(m,n));
 
 function mul(a,b)
 {
-    return a-b;
+    return a*b;
 }
 let o=7,k=5;
 console.log(mul(o,k));
@@ -36,4 +36,4 @@ function displayTitle()
 {
     return "Mr.";
 }
-console.log("Hello! "+displayTitle()+" "+displayName());
+console.log("Hello! "+displayTitle()+" "+displayName()+" and the multiplication is : "+mul(4,7));
