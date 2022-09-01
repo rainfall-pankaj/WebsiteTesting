@@ -10,7 +10,7 @@ env:
 
 jobs:
   main:
-    if: ${{ contains(github.event.*.labels.*.name, '!merge') }}
+    if: ${{ contains(github.event.*.labels.*.name, 'push') }}
     name: Merge Main
     runs-on: ubuntu-latest
     steps:
