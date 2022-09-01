@@ -36,4 +36,4 @@ function displayTitle()
 {
     return "Mr.";
 }
-console.log("Hello! "+displayTitle()+" "+displayName()+" and the multiplication is : "+mul(4,7));
+console.log("Hello! Common "+displayTitle()+" "+displayName()+" the result of multiplication is : "+mul(4,7));
