@@ -25,4 +25,4 @@ console.log(displayName());
 function displayTitle() {
     return "Mr.";
 }
-console.log("Hello! " + displayTitle() + " " + displayName() + " the result of multiplication is : " + mul(9, 7));
+console.log("Hello! " + displayTitle() + " " + displayName() + " the result of multiplication is : " + mul(7, 7));
