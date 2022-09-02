@@ -1,23 +1,22 @@
-name: automerge
-on:
-  push:
-    branches:
-      - 'release/**'
-  
-  pull_request_review:
-    types:
-      - submitted
-  check_suite:
-    types:
-      - completed
-  status: {}
-jobs:
-  automerge:
-    runs-on: ubuntu-latest
-    steps:
-      - id: automerge
-        name: automerge
-        uses: "pascalgn/automerge-action@v0.15.3"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          LOG: "TRACE"  # or "DEBUG"
+name: 'Nightly Merge'
+
+  on:
+    push:
+      branches:
+        - 'release/**'
+
+  jobs:
+    nightly-merge:
+
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Nightly Merge
+        uses: robotology/gh-action-nightly-merge@v1.3.1
+        with:
+          development_branch: 'release'
+          stable_branch: 'main'          
+          allow_ff: false
