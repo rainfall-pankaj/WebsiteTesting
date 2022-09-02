@@ -19,9 +19,7 @@ env:
 
   # replace "master" with your master branch name
   MASTER_BRANCH: main
-
-  RELEASE_BRANCH: 'release/**'
-
+  
 jobs:
   merge:
     runs-on: ubuntu-latest
