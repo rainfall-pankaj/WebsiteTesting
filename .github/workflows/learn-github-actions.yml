@@ -1,23 +1,37 @@
-name: 'Nightly Merge'
+name: Automerge
 
 on:
-    push:
-      branches:
-        - 'release/**'
+  workflow_dispatch:
+  schedule:
+    # You can setup schedule here
+    - cron: '0 0 * * *'
+
+env:
+  # replace "github_username" with your GitHub username
+  # replace "github.com/username/repo.git" with your GitHub repo path
+  # do NOT replace ${{secrets.GITHUB_TOKEN}}, GitHub will take care of it
+  MY_REPO: https://rainfall-pankaj:${{secrets.GITHUB_TOKEN}}@github.com/username/repo.git
+
+  # replace "long-lived_branch_name" with your branch name
+  MY_BRANCH: release\test\pankaj3
+
+  # replace it with the path to master repo
+  MASTER_REPO: https://github.com/rainfall-pankaj/WebsiteTesting.git
+
+  # replace "master" with your master branch name
+  MASTER_BRANCH: main
 
 jobs:
-   nightly-merge:
-
+  merge:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-
-      - name: Nightly Merge
-        uses: robotology/gh-action-nightly-merge@v1.3.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          stable_branch: 'main'
-          development_branch: 'release'
-          allow_ff: false
+    - name: Merge with main
+      run: |
+        git clone ${{env.MY_REPO}} -b ${{env.MY_BRANCH}} tmp
+        cd tmp
+        git config user.name "rainfall-pankaj"
+        git config user.email "pankaj@rainfall.one"
+        git config pull.rebase false
+        git pull ${{env.MASTER_REPO}} ${{env.MASTER_BRANCH}}
+        git push
